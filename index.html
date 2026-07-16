@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sofiia Nikolenko — M.Sc. student in Statistics and Data Science at LMU Munich. Research on AI safety, uncertainty quantification, and mechanistic interpretability.">
+<title>Sofiia Nikolenko</title>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<script>
+  // Apply a saved theme choice before first paint to avoid a flash.
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+</script>
+<style>
+  :root {
+    color-scheme: light dark;
+    --accent: #0b57d0;
+    --accent-hover: #0842a0;
+    --text: #1a1a1a;
+    --text-light: #5f6368;
+    --border: #e4e6ea;
+    --bg: #fff;
+    --bg-subtle: #f6f7f9;
+    --badge-bg: #e8f0fe;
+    --nav-bg: rgba(255, 255, 255, 0.92);
+    --pub-hover-border: #c9cdd4;
+    --pub-hover-shadow: rgba(0, 0, 0, 0.05);
+  }
+
+  /* ---------- Dark mode ----------
+     Default follows the system setting; the nav toggle sets
+     data-theme="light"/"dark" on <html>, which takes priority. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --accent: #8ab4f8;
+      --accent-hover: #aecbfa;
+      --text: #e8eaed;
+      --text-light: #9aa0a6;
+      --border: #3a3d42;
+      --bg: #121417;
+      --bg-subtle: #1d2024;
+      --badge-bg: #1f3050;
+      --nav-bg: rgba(18, 20, 23, 0.9);
+      --pub-hover-border: #52565c;
+      --pub-hover-shadow: rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --accent: #8ab4f8;
+    --accent-hover: #aecbfa;
+    --text: #e8eaed;
+    --text-light: #9aa0a6;
+    --border: #3a3d42;
+    --bg: #121417;
+    --bg-subtle: #1d2024;
+    --badge-bg: #1f3050;
+    --nav-bg: rgba(18, 20, 23, 0.9);
+    --pub-hover-border: #52565c;
+    --pub-hover-shadow: rgba(0, 0, 0, 0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 17px;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+  .container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ---------- Sticky nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .container {
+    display: flex;
+    gap: 1.5rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--text-light);
+    font-size: 0.92rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  nav a:hover { color: var(--accent); text-decoration: none; }
+  nav .nav-name {
+    color: var(--text);
+    font-weight: 700;
+    margin-right: auto;
+  }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.32rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    background: var(--badge-bg);
+    color: var(--accent);
+  }
+  .theme-toggle svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    display: block;
+  }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle.dark .icon-moon { display: none; }
+  .theme-toggle.dark .icon-sun { display: block; }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 0 1rem;
+  }
+  header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 1.9rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  header .tagline {
+    color: var(--text-light);
+    margin-top: 0.35rem;
+  }
+
+  .icon-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+  }
+  .icon-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    padding: 0.28rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .icon-links a:hover {
+    text-decoration: none;
+    border-color: var(--accent);
+    background: var(--badge-bg);
+    color: var(--accent);
+  }
+  .icon-links svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding: 1.6rem 0; }
+  section h2 {
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  section p + p { margin-top: 0.9rem; }
+
+  /* ---------- Research interests ---------- */
+  .interests { display: grid; gap: 0.9rem; }
+  .interest {
+    padding: 0.9rem 1.1rem;
+    background: var(--bg-subtle);
+    border-radius: 10px;
+  }
+  .interest strong { display: block; margin-bottom: 0.15rem; }
+  .interest p { font-size: 0.95rem; color: var(--text-light); }
+
+  /* ---------- News ---------- */
+  .news-list { list-style: none; }
+  .news-list li {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .news-list li:last-child { border-bottom: none; }
+  .news-date {
+    flex-shrink: 0;
+    width: 5.5rem;
+    color: var(--text-light);
+    font-size: 0.88rem;
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.15rem;
+  }
+
+  /* ---------- Publications ---------- */
+  .pub {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.1rem;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+  .pub:hover {
+    border-color: var(--pub-hover-border);
+    box-shadow: 0 2px 10px var(--pub-hover-shadow);
+  }
+  .pub img {
+    width: 150px;
+    height: 112px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .pub-body { min-width: 0; }
+  .pub-title {
+    font-weight: 600;
+    font-size: 1.02rem;
+    line-height: 1.4;
+  }
+  .pub-authors {
+    font-size: 0.92rem;
+    color: var(--text-light);
+    margin-top: 0.3rem;
+  }
+  .pub-authors .me { color: var(--text); font-weight: 700; }
+  .venue-badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--badge-bg);
+    padding: 0.12rem 0.6rem;
+    border-radius: 999px;
+    margin-top: 0.45rem;
+  }
+  .pub-links {
+    margin-top: 0.5rem;
+    font-size: 0.88rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .pub details { margin-top: 0.55rem; }
+  .pub summary {
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--accent);
+    user-select: none;
+  }
+  .pub summary:hover { color: var(--accent-hover); }
+  .pub pre {
+    margin-top: 0.5rem;
+    padding: 0.8rem 1rem;
+    background: var(--bg-subtle);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+  .equal-note {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0 2.5rem;
+    margin-top: 1.5rem;
+    color: var(--text-light);
+    font-size: 0.88rem;
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.25rem;
+      padding-top: 2rem;
+    }
+    .icon-links { justify-content: center; }
+    .pub { flex-direction: column; }
+    .pub img { width: 100%; height: 150px; }
+    .news-list li { flex-direction: column; gap: 0.1rem; }
+    .news-date { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#top" class="nav-name">Sofiia Nikolenko</a>
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#news">News</a>
+    <a href="#publications">Publications</a>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="container" id="top">
+
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <img src="assets/img/personal_image.png" alt="Photo of Sofiia Nikolenko">
+    <div>
+      <h1>Sofiia Nikolenko</h1>
+      <p class="tagline">M.Sc. Student in Statistics &amp; Data Science · LMU Munich · relAI Fellow</p>
+      <div class="icon-links">
+        <a href="mailto:sofiia.nikolenko@campus.lmu.de" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6.5l8 5 8-5v1.74z"/></svg>
+          Email
+        </a>
+        <a href="https://scholar.google.com/citations?user=eQJT5jQAAAAJ&amp;hl=en" title="Google Scholar">
+          <svg viewBox="0 0 24 24"><path d="M12 2 1 8.5l4.5 2.7v5.3L12 20l6.5-3.5v-5.3L21 9.9V15h1.5V8.5L12 2zm4.9 13.6L12 18.2l-4.9-2.6v-3.3L12 15l4.9-2.7v3.3z"/></svg>
+          Scholar
+        </a>
+        <a href="https://github.com/ssophiee" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 4.7 18.2 5 18.2 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6a11.5 11.5 0 0 0 7.7-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <!-- <a href="https://twitter.com/YOUR_HANDLE" title="Twitter / X">
+          <svg viewBox="0 0 24 24"><path d="M18.2 2.3h3.3l-7.2 8.3 8.5 11.2h-6.7l-5.2-6.8-6 6.8H1.6l7.7-8.8L1.2 2.3h6.9l4.7 6.2 5.4-6.2zm-1.2 17.5h1.8L7.1 4.2H5.1l11.9 15.6z"/></svg>
+          Twitter/X
+        </a> -->
+        <a href="https://www.linkedin.com/in/sofiia-nikolenko-97345a292/" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.2V9h3.4v1.6h.1a3.8 3.8 0 0 1 3.4-1.9c3.6 0 4.3 2.4 4.3 5.5v6.3zM5.2 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7 20.5H3.4V9H7v11.5zM22.2.5H1.8C.8.5 0 1.3 0 2.2v20.6c0 1 .8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V2.2c0-1-.8-1.7-1.8-1.7z"/></svg>
+          LinkedIn
+        </a>
+        <a href="assets/img/cv.pdf" title="Curriculum Vitae">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15zm0-6h3v1.5H8V9z"/></svg>
+          CV
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about">
+    <h2>👋 About</h2>
+    <p>
+      I am an M.Sc. student in Statistics and Data Science (Machine Learning track) at
+      <a href="https://www.lmu.de/en/">LMU Munich</a> and a fellow of the
+      <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a> (relAI).
+      My research is about building trustworthy AI systems — I work on AI safety, uncertainty
+      quantification, and mechanistic interpretability of large language models.
+    </p>
+    <p>
+      Currently, I am a research assistant at the SODA Lab (LMU Munich), where I investigate
+      how moral foundations contribute to the robustness of refusal mechanisms in LLMs, and I
+      work on deception detection in LLMs at the Günnemann Lab (TUM).
+    </p>
+    <p>
+      Before graduate school, I was a data scientist at Kept (ex-KPMG), building RAG and NLP
+      systems for financial clients, and a solution engineer intern at Toloka.AI (Yandex),
+      where working on fraud detection.
+      <!-- I hold a B.Sc. in Analytical Economics and Econometrics from Plekhanov University. -->
+      I am always happy to chat about research - feel free to reach out at
+      <a href="mailto:sofiia.nikolenko@campus.lmu.de">sofiia.nikolenko@campus.lmu.de</a>.
+    </p>
+  </section>
+
+  <!-- ==================== RESEARCH INTERESTS ==================== -->
+  <section id="research">
+    <h2>🔬 Research Interests</h2>
+    <div class="interests">
+      <div class="interest">
+        <strong>🛡️ AI Safety &amp; LLM Alignment</strong>
+        <p>Jailbreak detection, the structure and robustness of refusal mechanisms, and adversarial attacks on LLMs and agentic systems.</p>
+      </div>
+      <div class="interest">
+        <strong>🎲 Uncertainty Quantification</strong>
+        <p>Bayesian and credal approaches to knowing what a model doesn't know — from detecting adversarial inputs to semantic commitment under uncertainty.</p>
+      </div>
+      <div class="interest">
+        <strong>🔍 Mechanistic Interpretability</strong>
+        <p>How intent and deception are reflected in a model's internal representations, e.g. entropy dynamics across intermediate layers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NEWS ==================== -->
+  <section id="news">
+    <h2>📰 News</h2>
+    <ul class="news-list">
+      <li>
+        <span class="news-date">Jun 2026</span>
+        <span>🎉 Our paper <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know</a> was accepted at <strong>ECML PKDD 2026</strong>, with a short version at the EIML workshop @ ICML 2026!</span>
+      </li>
+      <li>
+        <span class="news-date">Jun 2026</span>
+        <span>📄 New preprint on arXiv: <a href="https://arxiv.org/abs/2606.25182">detecting jailbreaks from entropy dynamics</a> in intermediate LLM layers.</span>
+      </li>
+      <li>
+        <span class="news-date">Dec 2025</span>
+        <span>🔬 Joined the SODA Lab at LMU Munich as a research assistant, working on AI safety through LLM alignment.</span>
+      </li>
+      <li>
+        <span class="news-date">Oct 2024</span>
+        <span>🎓 Selected as a fellow of the <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a> (16 of 200 applicants).</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ==================== PUBLICATIONS ==================== -->
+  <section id="publications">
+    <h2>📄 Publications</h2>
+
+    <div class="pub">
+      <img src="assets/img/paper1.jpg" alt="Thumbnail for the entropy dynamics jailbreak detection paper">
+      <div class="pub-body">
+        <div class="pub-title">
+          <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know: Detecting Jailbreaks from Entropy Dynamics</a>
+        </div>
+        <div class="pub-authors">
+          <span class="me">Sofiia Nikolenko</span>, Michele Papucci, Mina Rezaei, Shireen Kudukkil Manchingal
+        </div>
+        <span class="venue-badge">ECML PKDD 2026</span>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2606.25182">Paper</a>
+          <a href="https://github.com/ssophiee/entropy-jailbreak-detection">Code</a>
+          <a href="assets/img/ICML_Poster.pdf">Poster</a>
+        </div>
+        <details>
+          <summary>BibTeX</summary>
+          <pre>@inproceedings{nikolenko2026intermediate,
+  title     = {What Intermediate Layers Know: Detecting Jailbreaks
+               from Entropy Dynamics},
+  author    = {Nikolenko, Sofiia and Papucci, Michele and
+               Rezaei, Mina and Manchingal, Shireen Kudukkil},
+  booktitle = {European Conference on Machine Learning and Principles
+               and Practice of Knowledge Discovery in Databases
+               (ECML PKDD)},
+  year      = {2026},
+  eprint    = {2606.25182},
+  archivePrefix = {arXiv}
+}</pre>
+        </details>
+      </div>
+    </div>
+
+    <div class="pub">
+      <img src="assets/img/paper2.jpg" alt="Thumbnail for the credal large language models paper">
+      <div class="pub-body">
+        <div class="pub-title">
+          Credal Large Language Models for Semantic Commitment under Uncertainty
+        </div>
+        <div class="pub-authors">
+          <span class="me">Sofiia Nikolenko</span>, [CO-AUTHORS]
+        </div>
+        <span class="venue-badge">Under review</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    Last updated: July 2026 · Sofiia Nikolenko
+  </div>
+</footer>
+
+<script>
+  const toggleBtn = document.getElementById('theme-toggle');
+  const isDark = () => document.documentElement.dataset.theme
+    ? document.documentElement.dataset.theme === 'dark'
+    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const setIcon = () => { toggleBtn.classList.toggle('dark', isDark()); };
+  toggleBtn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    setIcon();
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setIcon);
+  setIcon();
+</script>
+
+</body>
+</html>
