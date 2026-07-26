@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Sofiia Nikolenko — M.Sc. student in Statistics and Data Science at LMU Munich. Research on AI safety, uncertainty quantification, and mechanistic interpretability.">
+<meta name="description" content="Sofiia Nikolenko — M.Sc. student in Statistics and Data Science at LMU Munich. Research on AI safety, uncertainty quantification, and monitoring LLMs through their internal representations.">
 <title>Sofiia Nikolenko</title>
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
@@ -197,6 +197,8 @@
   }
 
   /* ---------- Sections ---------- */
+  main { padding-bottom: 2.5rem; }
+
   section { padding: 1.6rem 0; }
   section h2 {
     font-size: 1.35rem;
@@ -206,7 +208,10 @@
   section p + p { margin-top: 0.9rem; }
 
   /* ---------- Research interests ---------- */
-  .interests { display: grid; gap: 0.9rem; }
+  .interests { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+  @media (max-width: 700px) {
+    .interests { grid-template-columns: 1fr; }
+  }
   .interest {
     padding: 0.9rem 1.1rem;
     background: var(--bg-subtle);
@@ -277,6 +282,7 @@
     border-radius: 999px;
     margin-top: 0.45rem;
   }
+  .venue-badge + .venue-badge { margin-left: 0.3rem; }
   .pub-links {
     margin-top: 0.5rem;
     font-size: 0.88rem;
@@ -308,14 +314,36 @@
     margin-top: 0.25rem;
   }
 
-  /* ---------- Footer ---------- */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 1.5rem 0 2.5rem;
-    margin-top: 1.5rem;
-    color: var(--text-light);
-    font-size: 0.88rem;
-    text-align: center;
+  /* ---------- Binary "SAFE" corner badge ---------- */
+  .binary-badge {
+    position: fixed;
+    right: 1.4rem;
+    bottom: 1.4rem;
+    width: 72px;
+    height: 72px;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .binary-badge svg { width: 100%; height: 100%; display: block; }
+  .binary-badge .ring {
+    animation: badge-spin 24s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  .binary-badge text {
+    font-family: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    fill: var(--text-light);
+  }
+  .binary-badge .ring text { font-size: 10.5px; letter-spacing: 0.5px; }
+  @keyframes badge-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .binary-badge .ring { animation: none; }
+  }
+  @media (max-width: 600px) {
+    .binary-badge { width: 56px; height: 56px; right: 0.9rem; bottom: 0.9rem; }
   }
 
   /* ---------- Mobile ---------- */
@@ -355,7 +383,7 @@
 
   <!-- ==================== HEADER ==================== -->
   <header>
-    <img src="assets/img/personal_image.png" alt="Photo of Sofiia Nikolenko">
+    <img src="assets/img/personal_img.png" alt="Photo of Sofiia Nikolenko">
     <div>
       <h1>Sofiia Nikolenko</h1>
       <p class="tagline">M.Sc. Student in Statistics &amp; Data Science · LMU Munich · relAI Fellow</p>
@@ -392,11 +420,11 @@
   <section id="about">
     <h2>👋 About</h2>
     <p>
-      I am an M.Sc. student in Statistics and Data Science (Machine Learning track) at
+      I am a M.Sc. student in Statistics and Data Science (Machine Learning track) at
       <a href="https://www.lmu.de/en/">LMU Munich</a> and a fellow of the
       <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a> (relAI).
-      My research is about building trustworthy AI systems — I work on AI safety, uncertainty
-      quantification, and mechanistic interpretability of large language models.
+      My research is about building trustworthy AI systems - I work on AI safety, uncertainty
+      quantification, and monitoring LLMs through their internal representations.
     </p>
     <p>
       Currently, I am a research assistant at the SODA Lab (LMU Munich), where I investigate
@@ -404,9 +432,9 @@
       work on deception detection in LLMs at the Günnemann Lab (TUM).
     </p>
     <p>
-      Before graduate school, I was a data scientist at Kept (ex-KPMG), building RAG and NLP
-      systems for financial clients, and a solution engineer intern at Toloka.AI (Yandex),
-      where working on fraud detection.
+      Before graduate school, I was a data scientist at Kept (ex-KPMG), building RAG and
+      information-security systems for the security team, and a solution engineer intern
+      at Toloka.AI (Yandex), working on fraud detection.
       <!-- I hold a B.Sc. in Analytical Economics and Econometrics from Plekhanov University. -->
       I am always happy to chat about research - feel free to reach out at
       <a href="mailto:sofiia.nikolenko@campus.lmu.de">sofiia.nikolenko@campus.lmu.de</a>.
@@ -418,18 +446,21 @@
     <h2>🔬 Research Interests</h2>
     <div class="interests">
       <div class="interest">
-        <strong>🛡️ AI Safety &amp; LLM Alignment</strong>
-        <p>Jailbreak detection, the structure and robustness of refusal mechanisms, and adversarial attacks on LLMs and agentic systems.</p>
+        <strong>🛡️ AI Safety</strong>
+        <p>Detecting and predicting unsafe behavior in LLMs — jailbreaks, deception,
+        goal drift — before it turns into harm.</p>
+      </div>
+      <div class="interest">
+        <strong>🔍 Interpretability</strong>
+        <p>Reading safety signals from a model's internal dynamics rather than
+        its outputs alone.</p>
       </div>
       <div class="interest">
         <strong>🎲 Uncertainty Quantification</strong>
-        <p>Bayesian and credal approaches to knowing what a model doesn't know — from detecting adversarial inputs to semantic commitment under uncertainty.</p>
+        <p>Uncertainty as a safety signal — when models should abstain, and when
+        their monitors should be trusted.</p>
       </div>
-      <div class="interest">
-        <strong>🔍 Mechanistic Interpretability</strong>
-        <p>How intent and deception are reflected in a model's internal representations, e.g. entropy dynamics across intermediate layers.</p>
-      </div>
-    </div>
+    </div>  
   </section>
 
   <!-- ==================== NEWS ==================== -->
@@ -437,12 +468,16 @@
     <h2>📰 News</h2>
     <ul class="news-list">
       <li>
-        <span class="news-date">Jun 2026</span>
-        <span>🎉 Our paper <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know</a> was accepted at <strong>ECML PKDD 2026</strong>, with a short version at the EIML workshop @ ICML 2026!</span>
+        <span class="news-date">Jul 2026</span>
+        <span>🏛️ Started as a research assistant at the <a href="https://www.cs.cit.tum.de/daml/startseite/">Data Analytics and Machine Learning Group</a> at TUM, working on AI safety.</span>
+      </li>
+      <li>
+        <span class="news-date">Jul 2026</span>
+        <span>🧩 Contributed <a href="https://github.com/mmschlk/shapiq/pull/543">vision-language explanation support</a> to <a href="https://github.com/mmschlk/shapiq">shapiq</a> — see the <a href="https://github.com/yhuang122/Image-Explanations-with-shapiq/tree/demo">demo</a>.</span>
       </li>
       <li>
         <span class="news-date">Jun 2026</span>
-        <span>📄 New preprint on arXiv: <a href="https://arxiv.org/abs/2606.25182">detecting jailbreaks from entropy dynamics</a> in intermediate LLM layers.</span>
+        <span>🎉 Our paper <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know</a> was accepted at <strong>ECML PKDD 2026</strong>, with a short version at the EIML workshop @ ICML 2026!</span>
       </li>
       <li>
         <span class="news-date">Dec 2025</span>
@@ -450,7 +485,7 @@
       </li>
       <li>
         <span class="news-date">Oct 2024</span>
-        <span>🎓 Selected as a fellow of the <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a> (16 of 200 applicants).</span>
+        <span>🎓 Selected as a fellow of the <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a>.</span>
       </li>
     </ul>
   </section>
@@ -460,7 +495,7 @@
     <h2>📄 Publications</h2>
 
     <div class="pub">
-      <img src="assets/img/paper1.jpg" alt="Thumbnail for the entropy dynamics jailbreak detection paper">
+      <img src="assets/img/paper1.png" alt="Thumbnail for the entropy dynamics jailbreak detection paper">
       <div class="pub-body">
         <div class="pub-title">
           <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know: Detecting Jailbreaks from Entropy Dynamics</a>
@@ -468,7 +503,8 @@
         <div class="pub-authors">
           <span class="me">Sofiia Nikolenko</span>, Michele Papucci, Mina Rezaei, Shireen Kudukkil Manchingal
         </div>
-        <span class="venue-badge">ECML PKDD 2026</span>
+        <a class="venue-badge" href="https://ecmlpkdd.org/">ECML PKDD 2026</a>
+        <a class="venue-badge" href="https://sites.google.com/view/eimlicml2026/home">EIML @ ICML 2026</a>
         <div class="pub-links">
           <a href="https://arxiv.org/abs/2606.25182">Paper</a>
           <a href="https://github.com/ssophiee/entropy-jailbreak-detection">Code</a>
@@ -492,27 +528,23 @@
       </div>
     </div>
 
-    <div class="pub">
-      <img src="assets/img/paper2.jpg" alt="Thumbnail for the credal large language models paper">
-      <div class="pub-body">
-        <div class="pub-title">
-          Credal Large Language Models for Semantic Commitment under Uncertainty
-        </div>
-        <div class="pub-authors">
-          <span class="me">Sofiia Nikolenko</span>, [CO-AUTHORS]
-        </div>
-        <span class="venue-badge">Under review</span>
-      </div>
-    </div>
   </section>
 
 </main>
 
-<footer>
-  <div class="container">
-    Last updated: July 2026 · Sofiia Nikolenko
-  </div>
-</footer>
+<!-- Ring spells "SAFE" in binary (ASCII: S=01010011 A=01000001 F=01000110 E=01000101) -->
+<div class="binary-badge" aria-hidden="true">
+  <svg viewBox="0 0 100 100">
+    <defs>
+      <path id="badge-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
+    </defs>
+    <g class="ring">
+      <text>
+        <textPath href="#badge-circle" textLength="238">01010011 01000001 01000110 01000101 ·&#160;</textPath>
+      </text>
+    </g>
+  </svg>
+</div>
 
 <script>
   const toggleBtn = document.getElementById('theme-toggle');
