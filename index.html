@@ -62,7 +62,12 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+    /* Scale the whole page up on wide screens: 16px on laptops → 21px on big monitors. */
+    font-size: clamp(16px, 10px + 0.5vw, 21px);
+  }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -70,7 +75,7 @@
     color: var(--text);
     background: var(--bg);
     line-height: 1.65;
-    font-size: 17px;
+    font-size: 1.05rem;
   }
 
   a {
@@ -81,7 +86,7 @@
   a:hover { color: var(--accent-hover); text-decoration: underline; }
 
   .container {
-    max-width: 1100px;
+    max-width: 70rem;
     margin: 0 auto;
     padding: 0 2rem;
   }
@@ -150,8 +155,8 @@
     padding: 3rem 0 1rem;
   }
   header img {
-    width: 150px;
-    height: 150px;
+    width: 9.5rem;
+    height: 9.5rem;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -348,7 +353,7 @@
 
   /* ---------- Mobile ---------- */
   @media (max-width: 600px) {
-    body { font-size: 16px; }
+    body { font-size: 1rem; }
     header {
       flex-direction: column;
       text-align: center;
