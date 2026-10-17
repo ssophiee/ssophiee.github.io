@@ -319,7 +319,11 @@
     flex-wrap: wrap;
     gap: 0.9rem;
   }
-  .pub details { margin-top: 0.55rem; }
+  .pub-details-row {
+    display: flex;
+    gap: 0.9rem;
+    margin-top: 0.55rem;
+  }
   .pub summary {
     cursor: pointer;
     font-size: 0.88rem;
@@ -447,7 +451,7 @@
 
   <!-- ==================== ABOUT ==================== -->
   <section id="about">
-    <h2>👋 About</h2>
+    <h2>About</h2>
     <p>
       I am a M.Sc. student in Statistics and Data Science (Machine Learning track) at
       <a href="https://www.lmu.de/en/">LMU Munich</a> and a fellow of the
@@ -456,16 +460,16 @@
       quantification, and monitoring LLMs through their internal representations.
     </p>
     <p>
-      Currently, I am a research assistant at the <a href="https://www.stat.lmu.de/soda/en/">SODA Lab</a> (LMU Munich), where I investigate
-      how moral foundations contribute to the robustness of refusal mechanisms in LLMs, and I
+      Currently, I am a research assistant at the <a href="https://www.stat.lmu.de/soda/en/">SODA Lab</a> (LMU Munich), where I look
+      how moral competence can affect agentic behavior, and I
       work on deception detection in LLMs at the
       <a href="https://www.cs.cit.tum.de/daml/startseite/">Data Analytics and Machine Learning</a> group (TUM).
     </p>
     <p>
       Before graduate school, I was a data scientist at Kept (ex-KPMG), building RAG and
       information-security systems for the security team, and a solution engineer intern
-      at Toloka.AI (Yandex), working on fraud detection.
-      <!-- I hold a B.Sc. in Analytical Economics and Econometrics from Plekhanov University. -->
+      at Toloka.AI (Yandex).
+
       I am always happy to chat about research - feel free to reach out at
       <a href="mailto:sofiia.nikolenko@campus.lmu.de">sofiia.nikolenko@campus.lmu.de</a>.
     </p>
@@ -473,59 +477,99 @@
 
   <!-- ==================== RESEARCH INTERESTS ==================== -->
   <section id="research">
-    <h2>🔬 Research Interests</h2>
+    <h2>Research Interests</h2>
     <div class="interests">
       <div class="interest">
-        <strong>🛡️ AI Safety</strong>
-        <p>Detecting and predicting unsafe behavior in LLMs — jailbreaks, deception,
-        goal drift — before it turns into harm.</p>
+        <strong>AI Safety</strong>
+        <p>Detecting and predicting unsafe behavior in LLMs, and safety dynamics in agentic systems.</p>
       </div>
       <div class="interest">
-        <strong>🔍 Interpretability</strong>
-        <p>Reading safety signals from a model's internal dynamics rather than
-        its outputs alone.</p>
+        <strong>Interpretability</strong>
+        <p>Reading safety signals from a model's internal dynamics.</p>
       </div>
       <div class="interest">
-        <strong>🎲 Uncertainty Quantification</strong>
+        <strong>Uncertainty Quantification</strong>
         <p>Uncertainty as a safety signal — when models should abstain, and when
-        their monitors should be trusted.</p>
+        their monitors can be trusted.</p>
       </div>
     </div>  
   </section>
 
   <!-- ==================== NEWS ==================== -->
   <section id="news">
-    <h2>📰 News</h2>
+    <h2>News</h2>
     <ul class="news-list">
       <li>
-        <span class="news-date">Jul 2026</span>
-        <span>🏛️ Started as a research assistant at the <a href="https://www.cs.cit.tum.de/daml/startseite/">Data Analytics and Machine Learning Group</a> at TUM, working on AI safety.</span>
+        <span class="news-date">Sep 2026</span>
+        <span>Our paper <a href="https://arxiv.org/abs/2609.35824">Reliable but Design-Sensitive</a> was accepted at the <strong>3rd UncertaiNLP Workshop @ EMNLP 2026</strong>!</span>
       </li>
       <li>
         <span class="news-date">Jul 2026</span>
-        <span>🧩 Contributed <a href="https://github.com/mmschlk/shapiq/pull/543">vision-language explanation support</a> to <a href="https://github.com/mmschlk/shapiq">shapiq</a> — see the <a href="https://github.com/yhuang122/Image-Explanations-with-shapiq/tree/demo">demo</a>.</span>
+        <span>Started as a research assistant at the <a href="https://www.cs.cit.tum.de/daml/startseite/">Data Analytics and Machine Learning Group</a> at TUM, working on AI safety.</span>
+      </li>
+      <li>
+        <span class="news-date">Jul 2026</span>
+        <span>Contributed <a href="https://github.com/mmschlk/shapiq/pull/543">vision-language explanation support</a> to <a href="https://github.com/mmschlk/shapiq">shapiq</a> — see the <a href="https://github.com/yhuang122/Image-Explanations-with-shapiq/tree/demo">demo</a>.</span>
       </li>
       <li>
         <span class="news-date">Jun 2026</span>
-        <span>🎉 Our paper <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know</a> was accepted at <strong>ECML PKDD 2026</strong>, with a short version at the EIML workshop @ ICML 2026!</span>
+        <span>Our paper <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know</a> was accepted at <strong>ECML PKDD 2026</strong>, with a short version at the EIML workshop @ ICML 2026!</span>
       </li>
       <li>
         <span class="news-date">Dec 2025</span>
-        <span>🔬 Joined the SODA Lab at LMU Munich as a research assistant, working on AI safety through LLM alignment.</span>
+        <span>Joined the SODA Lab at LMU Munich as a research assistant, working on AI safety through LLM alignment.</span>
       </li>
       <li>
         <span class="news-date">Oct 2024</span>
-        <span>🎓 Selected as a fellow of the <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a>.</span>
+        <span>Selected as a fellow of the <a href="https://zuseschoolrelai.de/">Konrad Zuse School of Excellence in Reliable AI</a>.</span>
       </li>
     </ul>
   </section>
 
   <!-- ==================== PUBLICATIONS ==================== -->
   <section id="publications">
-    <h2>📄 Publications</h2>
+    <h2>Publications</h2>
 
     <div class="pub">
-      <img src="assets/img/paper2.png" alt="Thumbnail for the credal large language models paper">
+      <img src="assets/img/paper3.svg" alt="Thumbnail for the instrument uncertainty paper">
+      <div class="pub-body">
+        <div class="pub-title">
+          <a href="https://arxiv.org/abs/2609.35824">Reliable but Design-Sensitive: Instrument Uncertainty in LLM Annotation</a>
+        </div>
+        <div class="pub-authors">
+          Thomas Reiter, Christoph Kern, Fedor Miasnikov, <span class="me">Sofiia Nikolenko</span>, Rob Chew, Stephanie Eckman, Frauke Kreuter
+        </div>
+        <a class="venue-badge" href="https://uncertainlp.github.io/UncertaiNLP2026/">UncertaiNLP @ EMNLP 2026</a>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2609.35824">Paper</a>
+          <a href="https://labels.stepheckman.com/">Project page</a>
+        </div>
+        <div class="pub-details-row">
+          <details>
+            <summary>Abstract</summary>
+            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Large language models (LLMs) can give reliable labels under one setup yet change those labels when researchers make other reasonable design choices. We tested seven LLMs, 12 task designs, three independent runs, and 3,000 tweets labeled for offensive language and hate speech. Repeating the same model and task design produced high agreement (median Fleiss' &kappa; = 0.91). Agreement fell when we changed the task design for the same tweets (median Cohen's &kappa; = 0.76). Task design and model choice increased the variance of estimated prevalence by factors of 76.7 for offensive language and 110.6 for hate speech compared with sampling variance alone. We call the variation caused by task design and model choice instrument uncertainty. Researchers can measure it only by comparing reasonable task designs.</p>
+          </details>
+          <details>
+            <summary>BibTeX</summary>
+            <pre>@inproceedings{reiter2026reliable,
+  title     = {Reliable but Design-Sensitive: Instrument Uncertainty
+               in LLM Annotation},
+  author    = {Reiter, Thomas and Kern, Christoph and Miasnikov, Fedor
+               and Nikolenko, Sofiia and Chew, Rob and Eckman, Stephanie
+               and Kreuter, Frauke},
+  booktitle = {3rd Workshop on Uncertainty-Aware NLP (UncertaiNLP)
+               at EMNLP 2026},
+  year      = {2026},
+  eprint    = {2609.35824},
+  archivePrefix = {arXiv}
+}</pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub">
+      <img src="assets/img/paper2.svg" alt="Thumbnail for the credal large language models paper">
       <div class="pub-body">
         <div class="pub-title">
           <a href="https://arxiv.org/abs/2608.23244">Credal Large Language Models for Semantic Commitment under Uncertainty</a>
@@ -537,9 +581,14 @@
         <div class="pub-links">
           <a href="https://arxiv.org/abs/2608.23244">Paper</a>
         </div>
-        <details>
-          <summary>BibTeX</summary>
-          <pre>@misc{manchingal2026credal,
+        <div class="pub-details-row">
+          <details>
+            <summary>Abstract</summary>
+            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Large language models (LLMs) often produce fluent but incorrect answers with unwarranted confidence. A central limitation is that standard LLMs represent uncertainty through a single predictive distribution, conflating epistemic ignorance with genuine ambiguity. We introduce Credal Large Language Models (CLLMs): an ensemble of LoRA adapters induces a credal set whose lower and upper probabilities expose the spread of plausible predictive distributions rather than collapsing to a single softmax output. From this representation, we derive a single commitment rule: the model commits to an answer only when its lower probability exceeds the upper probability of every alternative, and otherwise returns the set of answers that no plausible predictor rules out.</p>
+          </details>
+          <details>
+            <summary>BibTeX</summary>
+            <pre>@misc{manchingal2026credal,
   title     = {Credal Large Language Models for Semantic Commitment
                under Uncertainty},
   author    = {Manchingal, Shireen Kudukkil and Nikolenko, Sofiia and
@@ -549,12 +598,13 @@
   archivePrefix = {arXiv},
   primaryClass  = {cs.CL}
 }</pre>
-        </details>
+          </details>
+        </div>
       </div>
     </div>
 
     <div class="pub">
-      <img src="assets/img/paper1.png" alt="Thumbnail for the entropy dynamics jailbreak detection paper">
+      <img src="assets/img/paper1.svg" alt="Thumbnail for the entropy dynamics jailbreak detection paper">
       <div class="pub-body">
         <div class="pub-title">
           <a href="https://arxiv.org/abs/2606.25182">What Intermediate Layers Know: Detecting Jailbreaks from Entropy Dynamics</a>
@@ -569,21 +619,26 @@
           <a href="https://github.com/ssophiee/entropy-jailbreak-detection">Code</a>
           <a href="assets/img/ICML_Poster.pdf">Poster</a>
         </div>
-        <details>
-          <summary>BibTeX</summary>
-          <pre>@inproceedings{nikolenko2026intermediate,
+        <div class="pub-details-row">
+          <details>
+            <summary>Abstract</summary>
+            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Jailbreak attacks reveal a persistent weakness in aligned Large Language Models: carefully crafted prompts can elicit policy-violating responses despite safety training. We investigate how harmful intent is encoded within the model's internal representations by analyzing token-level predictive entropy trajectories across layers using the logit lens. We find that features capturing how entropy evolves across token positions, such as monotonic rank-based trend scores, are substantially more informative than static aggregate statistics. This signal is concentrated in intermediate layers and degrades at the final layer. Across multiple models (Llama, Qwen, Gemma) and adversarial benchmarks, these entropy dynamics provide architecture-consistent separation without additional training.</p>
+          </details>
+          <details>
+            <summary>BibTeX</summary>
+            <pre>@inproceedings{nikolenko2026intermediate,
   title     = {What Intermediate Layers Know: Detecting Jailbreaks
                from Entropy Dynamics},
   author    = {Nikolenko, Sofiia and Papucci, Michele and
                Rezaei, Mina and Manchingal, Shireen Kudukkil},
-  booktitle = {European Conference on Machine Learning and Principles
-               and Practice of Knowledge Discovery in Databases
-               (ECML PKDD)},
+  booktitle = {Joint European Conference on Machine Learning and
+               Knowledge Discovery in Databases},
+  pages     = {313--329},
   year      = {2026},
-  eprint    = {2606.25182},
-  archivePrefix = {arXiv}
+  organization = {Springer}
 }</pre>
-        </details>
+          </details>
+        </div>
       </div>
     </div>
 
@@ -600,6 +655,10 @@
               title="On repeat right now"></iframe>
     </div>
   </div> -->
+
+<footer style="text-align:center;padding:1.2rem 0 1.8rem;font-size:0.8rem;color:var(--text-light);">
+  vibe-coded with claude code :)
+</footer>
 
 </main>
 
