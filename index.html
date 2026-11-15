@@ -6,61 +6,27 @@
 <meta name="description" content="Sofiia Nikolenko — M.Sc. student in Statistics and Data Science at LMU Munich. Research on AI safety, uncertainty quantification, and monitoring LLMs through their internal representations.">
 <title>Sofiia Nikolenko</title>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/img/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
-<script>
-  // Apply a saved theme choice before first paint to avoid a flash.
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-</script>
+<meta name="theme-color" content="#0a0a0f">
 <style>
-  :root {
-    color-scheme: light dark;
-    --accent: #0b57d0;
-    --accent-hover: #0842a0;
-    --text: #1a1a1a;
-    --text-light: #5f6368;
-    --border: #e4e6ea;
-    --bg: #fff;
-    --bg-subtle: #f6f7f9;
-    --badge-bg: #e8f0fe;
-    --nav-bg: rgba(255, 255, 255, 0.92);
-    --pub-hover-border: #c9cdd4;
-    --pub-hover-shadow: rgba(0, 0, 0, 0.05);
-  }
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
-  /* ---------- Dark mode ----------
-     Default follows the system setting; the nav toggle sets
-     data-theme="light"/"dark" on <html>, which takes priority. */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --accent: #8ab4f8;
-      --accent-hover: #aecbfa;
-      --text: #e8eaed;
-      --text-light: #9aa0a6;
-      --border: #3a3d42;
-      --bg: #121417;
-      --bg-subtle: #1d2024;
-      --badge-bg: #1f3050;
-      --nav-bg: rgba(18, 20, 23, 0.9);
-      --pub-hover-border: #52565c;
-      --pub-hover-shadow: rgba(0, 0, 0, 0.4);
-    }
-  }
-  :root[data-theme="dark"] {
-    --accent: #8ab4f8;
-    --accent-hover: #aecbfa;
-    --text: #e8eaed;
-    --text-light: #9aa0a6;
-    --border: #3a3d42;
-    --bg: #121417;
-    --bg-subtle: #1d2024;
-    --badge-bg: #1f3050;
-    --nav-bg: rgba(18, 20, 23, 0.9);
-    --pub-hover-border: #52565c;
-    --pub-hover-shadow: rgba(0, 0, 0, 0.4);
+  :root {
+    --pink: #ff6ec7;
+    --pink-bright: #ff9cdd;
+    --pink-dim: #cc58a0;
+    --pink-glow: rgba(255, 110, 199, 0.5);
+    --pink-subtle: rgba(255, 110, 199, 0.07);
+    --pink-border: rgba(255, 110, 199, 0.18);
+    --green: #39ff7f;
+    --green-dim: rgba(57, 255, 127, 0.6);
+    --text: #d8d6e0;
+    --text-dim: #6a6878;
+    --bg: #06060b;
+    --bg-card: #0e0e18;
+    --border: rgba(255, 110, 199, 0.1);
+    --border-hover: rgba(255, 110, 199, 0.35);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,40 +34,82 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 4rem;
-    /* Scale the whole page up on wide screens: 14px on laptops → 19px on big monitors (~90% of previous scale). */
-    font-size: clamp(14px, 9px + 0.45vw, 19px);
+    font-size: clamp(13px, 8px + 0.45vw, 17px);
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                 Helvetica, Arial, sans-serif;
+    font-family: 'JetBrains Mono', 'SF Mono', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
     color: var(--text);
     background: var(--bg);
-    line-height: 1.65;
-    font-size: 1.05rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    overflow-x: hidden;
+    cursor: pointer;
   }
 
   a {
-    color: var(--accent);
+    color: var(--pink);
     text-decoration: none;
     font-weight: 500;
+    transition: color 0.2s, text-shadow 0.2s;
   }
-  a:hover { color: var(--accent-hover); text-decoration: underline; }
+  a:hover {
+    color: var(--pink-bright);
+    text-shadow: 0 0 10px var(--pink-glow), 0 0 20px rgba(255,110,199,0.2);
+  }
+
+  ::selection {
+    background: var(--pink);
+    color: var(--bg);
+  }
 
   .container {
-    max-width: 70rem;
+    max-width: 68rem;
     margin: 0 auto;
     padding: 0 2rem;
   }
 
-  /* ---------- Sticky nav ---------- */
+  /* ============ BOOT SEQUENCE ============ */
+  .boot-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+  .boot-overlay.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .boot-text {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--pink);
+    font-size: 0.85rem;
+    line-height: 1.9;
+    text-align: left;
+    white-space: pre;
+    text-shadow: 0 0 10px var(--pink-glow);
+    max-width: 90vw;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boot-overlay { display: none; }
+    header h1 .cursor { animation: none; }
+  }
+
+  /* ============ NAV ============ */
   nav {
     position: sticky;
     top: 0;
-    z-index: 10;
-    background: var(--nav-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    z-index: 50;
+    background: rgba(6, 6, 11, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
   }
   nav .container {
@@ -110,315 +118,532 @@
     padding-top: 0.65rem;
     padding-bottom: 0.65rem;
     overflow-x: auto;
+    align-items: center;
   }
   nav a {
-    color: var(--text-light);
-    font-size: 0.92rem;
+    color: var(--text-dim);
+    font-size: 0.82rem;
     font-weight: 500;
     white-space: nowrap;
+    letter-spacing: 0.03em;
   }
-  nav a:hover { color: var(--accent); text-decoration: none; }
+  nav a:hover { color: var(--pink); text-shadow: 0 0 8px var(--pink-glow); }
   nav .nav-name {
-    color: var(--text);
+    color: var(--pink);
     font-weight: 700;
     margin-right: auto;
+    text-shadow: 0 0 12px var(--pink-glow);
+    letter-spacing: 0.06em;
+    font-size: 0.88rem;
   }
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.32rem 0.6rem;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    background: none;
-    color: var(--text);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  nav a:not(.nav-name)::before {
+    content: './';
+    color: var(--text-dim);
+    opacity: 0.4;
   }
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    background: var(--badge-bg);
-    color: var(--accent);
-  }
-  .theme-toggle svg {
-    width: 15px;
-    height: 15px;
-    fill: currentColor;
-    display: block;
-  }
-  .theme-toggle .icon-sun { display: none; }
-  .theme-toggle.dark .icon-moon { display: none; }
-  .theme-toggle.dark .icon-sun { display: block; }
 
-  /* ---------- Header ---------- */
+  /* ============ HEADER ============ */
   header {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding: 3rem 0 1rem;
+    gap: 2.5rem;
+    padding: 3.5rem 0 1.5rem;
   }
   header img {
-    width: 9.5rem;
-    height: 9.5rem;
-    border-radius: 50%;
+    width: 9rem;
+    height: 9rem;
+    border-radius: 6px;
     object-fit: cover;
     flex-shrink: 0;
-    border: 1px solid var(--border);
+    border: 1px solid var(--pink-border);
   }
   header h1 {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
+    color: #fff;
+  }
+  header h1 .cursor {
+    color: var(--pink);
+    animation: blink 1s step-end infinite;
+    font-weight: 300;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
   }
   header .tagline {
-    color: var(--text-light);
-    margin-top: 0.35rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+  }
+  header .tagline::before {
+    content: '> ';
+    color: var(--pink-dim);
   }
 
   .icon-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
-    margin-top: 0.9rem;
+    margin-top: 1rem;
   }
   .icon-links a {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.85rem;
-    padding: 0.28rem 0.65rem;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.7rem;
     border: 1px solid var(--border);
-    border-radius: 999px;
-    color: var(--text);
-    transition: border-color 0.15s, background 0.15s;
+    border-radius: 3px;
+    color: var(--text-dim);
+    background: var(--bg-card);
+    transition: all 0.2s;
   }
   .icon-links a:hover {
-    text-decoration: none;
-    border-color: var(--accent);
-    background: var(--badge-bg);
-    color: var(--accent);
+    border-color: var(--pink);
+    color: var(--pink);
+    background: var(--pink-subtle);
+    box-shadow: 0 0 15px rgba(255,110,199,0.15), inset 0 0 15px rgba(255,110,199,0.05);
+    text-shadow: none;
   }
   .icon-links svg {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     fill: currentColor;
   }
-  .now-line {
-    padding-top: 1.6rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.88rem;
-    color: var(--text-light);
-  }
-  .spotify-embed {
-    margin-top: 0.5rem;
-    width: 225px;
-    height: 60px;
-    overflow: hidden;
-  }
-  .spotify-embed iframe {
-    display: block;
-    width: 300px;
-    height: 80px;
-    border: 0;
-    border-radius: 12px;
-    transform: scale(0.75);
-    transform-origin: top left;
-  }
 
-  /* ---------- Sections ---------- */
+  /* ============ SECTIONS ============ */
   main { padding-bottom: 2.5rem; }
 
-  section { padding: 1.6rem 0; }
+  section {
+    padding: 1.8rem 0;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.5s forwards;
+  }
+  section:nth-child(1) { animation-delay: 0.1s; }
+  section:nth-child(2) { animation-delay: 0.2s; }
+  section:nth-child(3) { animation-delay: 0.3s; }
+  section:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   section h2 {
-    font-size: 1.35rem;
-    letter-spacing: -0.01em;
-    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+    color: var(--pink);
+    text-transform: uppercase;
+  }
+  section h2::before {
+    content: '# ';
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  section h2::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, var(--pink-border), transparent 70%);
+    margin-top: 0.5rem;
   }
   section p + p { margin-top: 0.9rem; }
+  section p { font-size: 0.92rem; }
 
-  /* ---------- Research interests ---------- */
-  .interests { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+  /* ============ RESEARCH INTERESTS ============ */
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+  }
   @media (max-width: 700px) {
     .interests { grid-template-columns: 1fr; }
   }
   .interest {
-    padding: 0.9rem 1.1rem;
-    background: var(--bg-subtle);
-    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
   }
-  .interest strong { display: block; margin-bottom: 0.15rem; }
-  .interest p { font-size: 0.95rem; color: var(--text-light); }
+  .interest::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .interest:hover::before { opacity: 1; }
+  .interest:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 20px rgba(255,110,199,0.08);
+  }
+  .interest strong {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--pink);
+    font-size: 0.88rem;
+  }
+  .interest strong::before {
+    content: '~ ';
+    color: var(--text-dim);
+  }
+  .interest p { font-size: 0.85rem; color: var(--text-dim); }
 
-  /* ---------- News ---------- */
+  /* ============ NEWS ============ */
   .news-list { list-style: none; }
   .news-list li {
     display: flex;
     gap: 1.25rem;
-    padding: 0.55rem 0;
+    padding: 0.6rem 0;
     border-bottom: 1px solid var(--border);
   }
   .news-list li:last-child { border-bottom: none; }
   .news-date {
     flex-shrink: 0;
     width: 5.5rem;
-    color: var(--text-light);
-    font-size: 0.88rem;
+    color: var(--green-dim);
+    font-size: 0.78rem;
     font-variant-numeric: tabular-nums;
     padding-top: 0.15rem;
   }
+  .news-list li span:last-child { font-size: 0.88rem; }
 
-  /* ---------- Publications ---------- */
+  /* ============ PUBLICATIONS ============ */
   .pub {
     display: flex;
     gap: 1.25rem;
-    padding: 1.15rem;
+    padding: 1.2rem;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 4px;
     margin-bottom: 1.1rem;
-    transition: box-shadow 0.15s, border-color 0.15s;
+    background: var(--bg-card);
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
   .pub:hover {
-    border-color: var(--pub-hover-border);
-    box-shadow: 0 2px 10px var(--pub-hover-shadow);
+    border-color: var(--border-hover);
+    box-shadow: 0 0 25px rgba(255,110,199,0.08);
   }
   .pub img {
     width: 150px;
     height: 112px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 3px;
     border: 1px solid var(--border);
     flex-shrink: 0;
   }
   .pub-body { min-width: 0; }
-  .pub-title {
-    font-weight: 600;
-    font-size: 1.02rem;
-    line-height: 1.4;
-  }
-  .pub-authors {
-    font-size: 0.92rem;
-    color: var(--text-light);
-    margin-top: 0.3rem;
-  }
-  .pub-authors .me { color: var(--text); font-weight: 700; }
+  .pub-title { font-weight: 600; font-size: 0.92rem; line-height: 1.4; }
+  .pub-title a { color: #fff; }
+  .pub-title a:hover { color: var(--pink); }
+  .pub-authors { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.3rem; }
+  .pub-authors .me { color: var(--pink); font-weight: 700; }
   .venue-badge {
     display: inline-block;
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--accent);
-    background: var(--badge-bg);
+    color: var(--green);
+    background: rgba(57, 255, 127, 0.06);
+    border: 1px solid rgba(57, 255, 127, 0.15);
     padding: 0.12rem 0.6rem;
-    border-radius: 999px;
+    border-radius: 2px;
     margin-top: 0.45rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
   .venue-badge + .venue-badge { margin-left: 0.3rem; }
-  .pub-links {
-    margin-top: 0.5rem;
-    font-size: 0.88rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-  }
-  .pub-details-row {
-    display: flex;
-    gap: 0.9rem;
-    margin-top: 0.55rem;
-  }
-  .pub summary {
-    cursor: pointer;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--accent);
-    user-select: none;
-  }
-  .pub summary:hover { color: var(--accent-hover); }
+  .pub-links { margin-top: 0.5rem; font-size: 0.78rem; display: flex; flex-wrap: wrap; gap: 0.9rem; }
+  .pub-links a::before { content: '['; color: var(--text-dim); }
+  .pub-links a::after { content: ']'; color: var(--text-dim); }
+  .pub-details-row { display: flex; gap: 0.9rem; margin-top: 0.55rem; }
+  .pub summary { cursor: pointer; font-size: 0.78rem; font-weight: 500; color: var(--pink-dim); user-select: none; }
+  .pub summary:hover { color: var(--pink); }
   .pub pre {
-    margin-top: 0.5rem;
-    padding: 0.8rem 1rem;
-    background: var(--bg-subtle);
-    border-radius: 8px;
-    font-size: 0.78rem;
-    line-height: 1.5;
-    overflow-x: auto;
-  }
-  .equal-note {
-    font-size: 0.85rem;
-    color: var(--text-light);
-    margin-top: 0.25rem;
+    margin-top: 0.5rem; padding: 0.8rem 1rem;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 3px;
+    font-size: 0.7rem; line-height: 1.5; overflow-x: auto; color: var(--text-dim);
   }
 
-  /* ---------- Binary "SAFE" corner badge ---------- */
+  /* ============ BINARY BADGE ============ */
   .binary-badge {
-    position: fixed;
-    right: 1.4rem;
-    bottom: 1.4rem;
-    width: 72px;
-    height: 72px;
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0.85;
+    position: fixed; right: 1.4rem; bottom: 1.4rem;
+    width: 72px; height: 72px; z-index: 5;
+    pointer-events: none; opacity: 0.5;
   }
   .binary-badge svg { width: 100%; height: 100%; display: block; }
-  .binary-badge .ring {
-    animation: badge-spin 24s linear infinite;
-    transform-origin: 50% 50%;
-  }
-  .binary-badge text {
-    font-family: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
-    fill: var(--text-light);
-  }
+  .binary-badge .ring { animation: badge-spin 24s linear infinite; transform-origin: 50% 50%; }
+  .binary-badge text { font-family: 'JetBrains Mono', monospace; fill: var(--pink-dim); }
   .binary-badge .ring text { font-size: 10.5px; letter-spacing: 0.5px; }
-  @keyframes badge-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .binary-badge .ring { animation: none; }
-  }
+  @keyframes badge-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @media (max-width: 600px) {
     .binary-badge { width: 56px; height: 56px; right: 0.9rem; bottom: 0.9rem; }
   }
 
-  /* ---------- Mobile ---------- */
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center; padding: 1.2rem 0 1.8rem;
+    font-size: 0.72rem; color: var(--text-dim);
+    border-top: 1px solid var(--border);
+  }
+  footer span { opacity: 0.6; }
+
+  /* ============ WORDLE GAME WIDGET ============ */
+  .wordle-toggle {
+    position: fixed;
+    left: 1.2rem;
+    bottom: 1.2rem;
+    z-index: 60;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--pink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .wordle-toggle:hover {
+    border-color: var(--pink);
+    box-shadow: 0 0 12px rgba(255,110,199,0.2);
+  }
+
+  .wordle-panel {
+    position: fixed;
+    left: 1.2rem;
+    bottom: 3.6rem;
+    z-index: 60;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    width: 280px;
+  }
+  .wordle-panel.open { display: flex; }
+
+  .wordle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  .wordle-header .wordle-title {
+    color: var(--pink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.72rem;
+  }
+  .wordle-header .wordle-tries {
+    color: var(--text-dim);
+    font-size: 0.65rem;
+  }
+
+  /* Grid */
+  .wordle-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .wordle-row {
+    display: flex;
+    gap: 4px;
+  }
+  .wordle-cell {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .wordle-cell.filled {
+    border-color: var(--text-dim);
+    transform: scale(1.05);
+  }
+  .wordle-cell.correct {
+    background: var(--pink);
+    border-color: var(--pink);
+  }
+  .wordle-cell.present {
+    background: #6366f1;
+    border-color: #6366f1;
+  }
+  .wordle-cell.absent {
+    background: #2a2a3a;
+    border-color: #2a2a3a;
+    color: #6a6878;
+  }
+  .wordle-cell.pop {
+    animation: pop 0.15s ease;
+  }
+  @keyframes pop {
+    50% { transform: scale(1.15); }
+  }
+  .wordle-cell.reveal {
+    animation: flip 0.4s ease forwards;
+  }
+  @keyframes flip {
+    0% { transform: scaleY(1); }
+    50% { transform: scaleY(0); }
+    100% { transform: scaleY(1); }
+  }
+
+  /* Keyboard */
+  .wordle-keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 0.3rem;
+  }
+  .wordle-kb-row {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+  }
+  .wordle-key {
+    min-width: 1.5rem;
+    height: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    padding: 0 0.35rem;
+  }
+  .wordle-key:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+  }
+  .wordle-key.wide {
+    min-width: 2.5rem;
+    font-size: 0.55rem;
+  }
+  .wordle-key.correct {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff;
+  }
+  .wordle-key.present {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: #fff;
+  }
+  .wordle-key.absent {
+    background: #1a1a24;
+    border-color: #1a1a24;
+    color: #4a4a5a;
+  }
+
+  /* Message & hint */
+  .wordle-msg {
+    font-size: 0.68rem;
+    text-align: center;
+    min-height: 1.2rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .wordle-msg.win { color: var(--green); }
+  .wordle-msg.lose { color: var(--pink); }
+
+  .wordle-hint {
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.5;
+    max-width: 260px;
+    margin-top: 0.1rem;
+    padding: 0.4rem;
+    background: rgba(255,110,199,0.04);
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .wordle-hint strong {
+    color: var(--pink);
+  }
+
+  .wordle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--pink-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .wordle-btn:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+  }
+
+  /* ============ MOBILE ============ */
   @media (max-width: 600px) {
-    body { font-size: 1rem; }
-    header {
-      flex-direction: column;
-      text-align: center;
-      gap: 1.25rem;
-      padding-top: 2rem;
-    }
+    body { font-size: 0.88rem; }
+    header { flex-direction: column; text-align: center; gap: 1.25rem; padding-top: 2rem; }
+    header .tagline::before { content: ''; }
     .icon-links { justify-content: center; }
     .pub { flex-direction: column; }
     .pub img { width: 100%; height: 150px; }
     .news-list li { flex-direction: column; gap: 0.1rem; }
     .news-date { width: auto; }
+    .wordle-panel { left: 50%; transform: translateX(-50%); bottom: 3.4rem; }
+    .wordle-toggle { left: 50%; transform: translateX(-50%); }
   }
 </style>
 </head>
 <body>
 
+<!-- Boot sequence overlay -->
+<div class="boot-overlay" id="boot">
+  <div class="boot-text" id="boot-text"></div>
+</div>
+
 <nav>
   <div class="container">
-    <a href="#top" class="nav-name">Sofiia Nikolenko</a>
-    <a href="#about">About</a>
-    <a href="#research">Research</a>
-    <a href="#news">News</a>
-    <a href="#publications">Publications</a>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></svg>
-    </button>
+    <a href="#top" class="nav-name">sofiia nikolenko</a>
+    <a href="#about">about</a>
+    <a href="#research">research</a>
+    <a href="#news">news</a>
+    <a href="#publications">publications</a>
   </div>
 </nav>
 
 <main class="container" id="top">
 
-  <!-- ==================== HEADER ==================== -->
   <header>
     <img src="assets/img/personal_img.png" alt="Photo of Sofiia Nikolenko">
     <div>
-      <h1>Sofiia Nikolenko</h1>
+      <h1>Sofiia Nikolenko<span class="cursor">_</span></h1>
       <p class="tagline">M.Sc. Student in Statistics &amp; Data Science · LMU Munich · relAI Fellow</p>
       <div class="icon-links">
         <a href="mailto:sofiia.nikolenko@campus.lmu.de" title="Email">
@@ -433,10 +658,6 @@
           <svg viewBox="0 0 24 24"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 4.7 18.2 5 18.2 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6a11.5 11.5 0 0 0 7.7-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
           GitHub
         </a>
-        <!-- <a href="https://twitter.com/YOUR_HANDLE" title="Twitter / X">
-          <svg viewBox="0 0 24 24"><path d="M18.2 2.3h3.3l-7.2 8.3 8.5 11.2h-6.7l-5.2-6.8-6 6.8H1.6l7.7-8.8L1.2 2.3h6.9l4.7 6.2 5.4-6.2zm-1.2 17.5h1.8L7.1 4.2H5.1l11.9 15.6z"/></svg>
-          Twitter/X
-        </a> -->
         <a href="https://www.linkedin.com/in/sofiia-nikolenko-97345a292/" title="LinkedIn">
           <svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.2V9h3.4v1.6h.1a3.8 3.8 0 0 1 3.4-1.9c3.6 0 4.3 2.4 4.3 5.5v6.3zM5.2 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7 20.5H3.4V9H7v11.5zM22.2.5H1.8C.8.5 0 1.3 0 2.2v20.6c0 1 .8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V2.2c0-1-.8-1.7-1.8-1.7z"/></svg>
           LinkedIn
@@ -449,7 +670,6 @@
     </div>
   </header>
 
-  <!-- ==================== ABOUT ==================== -->
   <section id="about">
     <h2>About</h2>
     <p>
@@ -460,10 +680,8 @@
       quantification, and monitoring LLMs through their internal representations.
     </p>
     <p>
-      Currently, I am a research assistant at the <a href="https://www.stat.lmu.de/soda/en/">SODA Lab</a> (LMU Munich), where I look
-      how moral competence can affect agentic behavior, and I
-      work on deception detection in LLMs at the
-      <a href="https://www.cs.cit.tum.de/daml/startseite/">Data Analytics and Machine Learning</a> group (TUM).
+      Currently, I am a research assistant at the <a href="https://www.stat.lmu.de/soda/en/">SODA Lab</a> (LMU Munich), where I
+      work on understanding why LLM agents violate the rules they reason about.
     </p>
     <p>
       Before graduate school, I was a data scientist at Kept (ex-KPMG), building RAG and
@@ -475,27 +693,24 @@
     </p>
   </section>
 
-  <!-- ==================== RESEARCH INTERESTS ==================== -->
   <section id="research">
     <h2>Research Interests</h2>
     <div class="interests">
       <div class="interest">
-        <strong>AI Safety</strong>
-        <p>Detecting and predicting unsafe behavior in LLMs, and safety dynamics in agentic systems.</p>
+        <strong>Oversight &amp; Evaluation</strong>
+        <p>Building monitors and evaluations that reliably detect misaligned behavior, even when models recognize they are being tested.</p>
       </div>
       <div class="interest">
-        <strong>Interpretability</strong>
-        <p>Reading safety signals from a model's internal dynamics.</p>
+        <strong>Agentic Safety</strong>
+        <p>How autonomous AI agents fail, and how to detect and prevent misaligned behavior in agentic systems.</p>
       </div>
       <div class="interest">
-        <strong>Uncertainty Quantification</strong>
-        <p>Uncertainty as a safety signal — when models should abstain, and when
-        their monitors can be trusted.</p>
+        <strong>Uncertainty &amp; Internals</strong>
+        <p>Using uncertainty dynamics and internal representations as signals for detecting when what a model says differs from what it does.</p>
       </div>
-    </div>  
+    </div>
   </section>
 
-  <!-- ==================== NEWS ==================== -->
   <section id="news">
     <h2>News</h2>
     <ul class="news-list">
@@ -526,7 +741,6 @@
     </ul>
   </section>
 
-  <!-- ==================== PUBLICATIONS ==================== -->
   <section id="publications">
     <h2>Publications</h2>
 
@@ -547,7 +761,7 @@
         <div class="pub-details-row">
           <details>
             <summary>Abstract</summary>
-            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Large language models (LLMs) can give reliable labels under one setup yet change those labels when researchers make other reasonable design choices. We tested seven LLMs, 12 task designs, three independent runs, and 3,000 tweets labeled for offensive language and hate speech. Repeating the same model and task design produced high agreement (median Fleiss' &kappa; = 0.91). Agreement fell when we changed the task design for the same tweets (median Cohen's &kappa; = 0.76). Task design and model choice increased the variance of estimated prevalence by factors of 76.7 for offensive language and 110.6 for hate speech compared with sampling variance alone. We call the variation caused by task design and model choice instrument uncertainty. Researchers can measure it only by comparing reasonable task designs.</p>
+            <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-dim);line-height:1.55;">Large language models (LLMs) can give reliable labels under one setup yet change those labels when researchers make other reasonable design choices. We tested seven LLMs, 12 task designs, three independent runs, and 3,000 tweets labeled for offensive language and hate speech. Repeating the same model and task design produced high agreement (median Fleiss' &kappa; = 0.91). Agreement fell when we changed the task design for the same tweets (median Cohen's &kappa; = 0.76). Task design and model choice increased the variance of estimated prevalence by factors of 76.7 for offensive language and 110.6 for hate speech compared with sampling variance alone. We call the variation caused by task design and model choice instrument uncertainty. Researchers can measure it only by comparing reasonable task designs.</p>
           </details>
           <details>
             <summary>BibTeX</summary>
@@ -584,7 +798,7 @@
         <div class="pub-details-row">
           <details>
             <summary>Abstract</summary>
-            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Large language models (LLMs) often produce fluent but incorrect answers with unwarranted confidence. A central limitation is that standard LLMs represent uncertainty through a single predictive distribution, conflating epistemic ignorance with genuine ambiguity. We introduce Credal Large Language Models (CLLMs): an ensemble of LoRA adapters induces a credal set whose lower and upper probabilities expose the spread of plausible predictive distributions rather than collapsing to a single softmax output. From this representation, we derive a single commitment rule: the model commits to an answer only when its lower probability exceeds the upper probability of every alternative, and otherwise returns the set of answers that no plausible predictor rules out.</p>
+            <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-dim);line-height:1.55;">Large language models (LLMs) often produce fluent but incorrect answers with unwarranted confidence. A central limitation is that standard LLMs represent uncertainty through a single predictive distribution, conflating epistemic ignorance with genuine ambiguity. We introduce Credal Large Language Models (CLLMs): an ensemble of LoRA adapters induces a credal set whose lower and upper probabilities expose the spread of plausible predictive distributions rather than collapsing to a single softmax output. From this representation, we derive a single commitment rule: the model commits to an answer only when its lower probability exceeds the upper probability of every alternative, and otherwise returns the set of answers that no plausible predictor rules out.</p>
           </details>
           <details>
             <summary>BibTeX</summary>
@@ -622,7 +836,7 @@
         <div class="pub-details-row">
           <details>
             <summary>Abstract</summary>
-            <p style="margin-top:0.5rem;font-size:0.88rem;color:var(--text-light);line-height:1.55;">Jailbreak attacks reveal a persistent weakness in aligned Large Language Models: carefully crafted prompts can elicit policy-violating responses despite safety training. We investigate how harmful intent is encoded within the model's internal representations by analyzing token-level predictive entropy trajectories across layers using the logit lens. We find that features capturing how entropy evolves across token positions, such as monotonic rank-based trend scores, are substantially more informative than static aggregate statistics. This signal is concentrated in intermediate layers and degrades at the final layer. Across multiple models (Llama, Qwen, Gemma) and adversarial benchmarks, these entropy dynamics provide architecture-consistent separation without additional training.</p>
+            <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-dim);line-height:1.55;">Jailbreak attacks reveal a persistent weakness in aligned Large Language Models: carefully crafted prompts can elicit policy-violating responses despite safety training. We investigate how harmful intent is encoded within the model's internal representations by analyzing token-level predictive entropy trajectories across layers using the logit lens. We find that features capturing how entropy evolves across token positions, such as monotonic rank-based trend scores, are substantially more informative than static aggregate statistics. This signal is concentrated in intermediate layers and degrades at the final layer. Across multiple models (Llama, Qwen, Gemma) and adversarial benchmarks, these entropy dynamics provide architecture-consistent separation without additional training.</p>
           </details>
           <details>
             <summary>BibTeX</summary>
@@ -644,25 +858,11 @@
 
   </section>
 
-  <!-- To change the song: Spotify → share → copy song link → paste the
-       track ID (the part after /track/, before the ?) into the src below.
-  <div class="now-line">
-    <p>on repeat right now:</p>
-    <div class="spotify-embed">
-      <iframe src="https://open.spotify.com/embed/track/4uLU6hMCjMI75M1A2tKUQC"
-              width="300" height="80" frameborder="0" loading="lazy"
-              allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              title="On repeat right now"></iframe>
-    </div>
-  </div> -->
-
-<footer style="text-align:center;padding:1.2rem 0 1.8rem;font-size:0.8rem;color:var(--text-light);">
-  vibe-coded with claude code :)
-</footer>
+<footer><span>$ echo "</span>vibe-coded with claude code :)<span>"</span></footer>
 
 </main>
 
-<!-- Ring spells "SAFE" in binary (ASCII: S=01010011 A=01000001 F=01000110 E=01000101) -->
+<!-- Binary SAFE badge -->
 <div class="binary-badge" aria-hidden="true">
   <svg viewBox="0 0 100 100">
     <defs>
@@ -676,20 +876,380 @@
   </svg>
 </div>
 
+<!-- Wordle widget -->
+<button class="wordle-toggle" id="wordle-toggle">wordle</button>
+<div class="wordle-panel" id="wordle-panel">
+  <div class="wordle-header">
+    <span class="wordle-title">wordle</span>
+    <span class="wordle-tries" id="wordle-tries"></span>
+  </div>
+  <div class="wordle-grid" id="wordle-grid"></div>
+  <div class="wordle-msg" id="wordle-msg"></div>
+  <div class="wordle-hint" id="wordle-hint" style="display:none;"></div>
+  <div class="wordle-keyboard" id="wordle-keyboard"></div>
+  <button class="wordle-btn" id="wordle-new" style="display:none;">new word</button>
+</div>
+
+<!-- Boot sequence -->
 <script>
-  const toggleBtn = document.getElementById('theme-toggle');
-  const isDark = () => document.documentElement.dataset.theme
-    ? document.documentElement.dataset.theme === 'dark'
-    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const setIcon = () => { toggleBtn.classList.toggle('dark', isDark()); };
-  toggleBtn.addEventListener('click', () => {
-    const next = isDark() ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('theme', next);
-    setIcon();
+(function() {
+  const lines = [
+    'Loading kernel modules ...',
+    '  [+] safety_monitor.ko',
+    '  [+] entropy_detector.ko',
+    'Decrypting research partition ... OK',
+    'Initializing display ...',
+  ];
+
+  const boot = document.getElementById('boot');
+  const text = document.getElementById('boot-text');
+
+  if (sessionStorage.getItem('booted')) {
+    boot.classList.add('done');
+    return;
+  }
+
+  let lineIdx = 0, charIdx = 0, output = '';
+
+  function type() {
+    if (lineIdx >= lines.length) {
+      sessionStorage.setItem('booted', '1');
+      setTimeout(() => boot.classList.add('done'), 350);
+      return;
+    }
+    const line = lines[lineIdx];
+    if (line === '') {
+      output += '\n'; text.textContent = output;
+      lineIdx++; setTimeout(type, 80); return;
+    }
+    if (charIdx < line.length) {
+      output += line[charIdx];
+      text.textContent = output + '\u2588';
+      charIdx++;
+      const ch = line[charIdx - 1];
+      setTimeout(type, ch === '.' ? 12 : ch === ' ' ? 18 : 20);
+    } else {
+      output += '\n'; text.textContent = output + '\u2588';
+      lineIdx++; charIdx = 0; setTimeout(type, 60);
+    }
+  }
+  setTimeout(type, 200);
+})();
+</script>
+
+<!-- Safedle (AI Safety Wordle) -->
+<script>
+(function() {
+  // Word bank: [word, hint]
+  const WORDS = [
+    ['ALIGN','Making AI systems behave according to human values and intentions'],
+    ['PROBE','A small classifier trained to read information from model internals'],
+    ['AGENT','An AI system that can take actions autonomously in an environment'],
+    ['TOKEN','The atomic unit of text that language models process'],
+    ['STEER','To guide model behavior using representations or prompts'],
+    ['TRUST','The degree of confidence we place in an AI system\'s outputs'],
+    ['TOXIC','Harmful, offensive, or dangerous content generated by models'],
+    ['MORAL','Relating to principles of right and wrong in AI behavior'],
+    ['LAYER','A computational stage in a neural network\'s architecture'],
+    ['NOISE','Random perturbation that can affect model predictions'],
+    ['PRIOR','A pre-existing belief or assumption in Bayesian reasoning'],
+    ['EMBED','To map discrete inputs into continuous vector representations'],
+    ['AUDIT','Systematic evaluation of an AI system for safety or bias'],
+    ['DECAY','Gradual decrease of weights, learning rate, or signal strength'],
+    ['SHIFT','Distribution change between training and deployment data'],
+    ['GUARD','A safety filter that screens model inputs or outputs'],
+    ['SCORE','A numerical measure of model performance or confidence'],
+    ['TRAIN','To optimize model parameters on data via gradient descent'],
+    ['MODEL','A learned function that maps inputs to predictions'],
+    ['VALUE','A quantity optimized or estimated in reinforcement learning'],
+    ['LLAMA','Meta\'s open-weight large language model family'],
+    ['MONITOR','A system that watches AI behavior for signs of misalignment'],
+    ['PATCH','A targeted fix applied to model behavior or vulnerabilities'],
+    ['TRACE','A recorded sequence of an agent\'s actions and decisions'],
+    ['FAULT','A failure mode or error in an AI system\'s behavior'],
+    ['RISKS','Potential negative outcomes from deploying AI systems'],
+    ['SABOTAGE','When an AI agent deliberately undermines a task or system'],
+    ['ROUGE','A metric for evaluating text summarization quality'],
+    ['PRUNE','Removing unnecessary parameters to compress a neural network'],
+    ['QUERY','An input prompt or question submitted to a language model'],
+    ['LOGIT','Raw unnormalized output score before softmax activation'],
+    ['EPOCH','One full pass through the entire training dataset'],
+    ['LABEL','Ground-truth annotation assigned to a training example'],
+    ['DEPTH','The number of layers in a neural network architecture'],
+    ['MISALIGN','When a model\'s behavior diverges from its intended goals'],
+    ['PROXY','An indirect measure used in place of the true objective'],
+    ['INFER','To generate predictions from a trained model'],
+    ['SCALE','Increasing model size, data, or compute for better performance'],
+    ['HEADS','Parallel attention mechanisms in a transformer model'],
+    ['BATCH','A subset of training data processed in one forward pass'],
+    ['DRIFT','Gradual change in data distribution over time'],
+    ['EVASION','When a model avoids detection by monitors or evaluations'],
+    ['TUNED','A model that has been fine-tuned on a specific task'],
+    ['CLONE','Replicating a model\'s behavior through distillation'],
+    ['MERGE','Combining multiple model weights into a single model'],
+    ['MASKS','Attention patterns that control which tokens interact'],
+    ['SPLIT','Dividing data into train, validation, and test sets'],
+    ['DENSE','A fully connected neural network layer'],
+    ['OVERFIT','When a model memorizes training data instead of generalizing'],
+    ['REWARD','The signal an RL agent optimizes for during training'],
+    ['SAFETY','The field of ensuring AI systems behave as intended'],
+    ['PROMPT','The input text given to a language model to guide its output'],
+    ['POLICY','A mapping from states to actions in reinforcement learning'],
+    ['DETECT','To identify unsafe or anomalous behavior in a model'],
+    ['ROBUST','A model\'s ability to maintain performance under adversarial inputs'],
+    ['DEPLOY','Releasing a trained model into a production environment'],
+    ['FINETUNE','Adapting a pretrained model to a specific downstream task'],
+    ['REDTEAM','Adversarial testing to find vulnerabilities in AI systems'],
+    ['DISTILL','Compressing a large model\'s knowledge into a smaller one'],
+    ['RETRAIN','Updating a model with new data to fix or improve behavior'],
+    ['DROPOUT','Randomly deactivating neurons during training to prevent overfitting'],
+    ['ENTROPY','A measure of uncertainty in a probability distribution'],
+    ['SOFTMAX','A function that converts logits into a probability distribution'],
+  ];
+
+  const MAX_GUESSES = 6;
+  let wordLen = 5;
+  const KB_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+
+  const panel = document.getElementById('wordle-panel');
+  const toggleBtn = document.getElementById('wordle-toggle');
+  const gridEl = document.getElementById('wordle-grid');
+  const kbEl = document.getElementById('wordle-keyboard');
+  const msgEl = document.getElementById('wordle-msg');
+  const hintEl = document.getElementById('wordle-hint');
+  const triesEl = document.getElementById('wordle-tries');
+  const newBtn = document.getElementById('wordle-new');
+
+  let answer, answerHint, guesses, currentGuess, gameOver, keyStates;
+
+  function init() {
+    const pick = WORDS[Math.floor(Math.random() * WORDS.length)];
+    answer = pick[0];
+    answerHint = pick[1];
+    wordLen = answer.length;
+    guesses = [];
+    currentGuess = '';
+    gameOver = false;
+    keyStates = {};
+    msgEl.textContent = wordLen + ' letters';
+    msgEl.className = 'wordle-msg';
+    hintEl.style.display = 'none';
+    newBtn.style.display = 'none';
+    triesEl.textContent = '';
+    buildGrid();
+    buildKeyboard();
+  }
+
+  function buildGrid() {
+    gridEl.innerHTML = '';
+    // Scale cell size down for longer words
+    const cellSize = wordLen <= 6 ? '2.4rem' : wordLen <= 8 ? '2rem' : '1.7rem';
+    const fontSize = wordLen <= 6 ? '0.9rem' : wordLen <= 8 ? '0.75rem' : '0.65rem';
+    for (let r = 0; r < MAX_GUESSES; r++) {
+      const row = document.createElement('div');
+      row.className = 'wordle-row';
+      for (let c = 0; c < wordLen; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'wordle-cell';
+        cell.style.width = cellSize;
+        cell.style.height = cellSize;
+        cell.style.fontSize = fontSize;
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        row.appendChild(cell);
+      }
+      gridEl.appendChild(row);
+    }
+  }
+
+  function buildKeyboard() {
+    kbEl.innerHTML = '';
+    KB_ROWS.forEach((row, i) => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'wordle-kb-row';
+      if (i === 2) {
+        const enter = document.createElement('button');
+        enter.className = 'wordle-key wide';
+        enter.textContent = 'ENT';
+        enter.dataset.key = 'Enter';
+        rowEl.appendChild(enter);
+      }
+      for (const ch of row) {
+        const key = document.createElement('button');
+        key.className = 'wordle-key';
+        key.textContent = ch;
+        key.dataset.key = ch;
+        rowEl.appendChild(key);
+      }
+      if (i === 2) {
+        const del = document.createElement('button');
+        del.className = 'wordle-key wide';
+        del.textContent = 'DEL';
+        del.dataset.key = 'Backspace';
+        rowEl.appendChild(del);
+      }
+      kbEl.appendChild(rowEl);
+    });
+  }
+
+  function getCell(row, col) {
+    return gridEl.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+  }
+
+  function updateGrid() {
+    const row = guesses.length;
+    for (let c = 0; c < wordLen; c++) {
+      const cell = getCell(row, c);
+      cell.textContent = currentGuess[c] || '';
+      if (currentGuess[c]) {
+        cell.classList.add('filled');
+      } else {
+        cell.classList.remove('filled');
+      }
+    }
+  }
+
+  function submitGuess() {
+    if (currentGuess.length !== wordLen) {
+      msgEl.textContent = 'not enough letters';
+      setTimeout(() => { if (!gameOver) msgEl.textContent = ''; }, 1200);
+      // Shake the row
+      const rowEl = gridEl.children[guesses.length];
+      rowEl.style.animation = 'none';
+      rowEl.offsetHeight; // reflow
+      rowEl.style.animation = 'shake 0.3s ease';
+      return;
+    }
+
+    const guess = currentGuess;
+    const rowIdx = guesses.length;
+
+    // Compute colors
+    const result = Array(wordLen).fill('absent');
+    const answerArr = answer.split('');
+    const guessArr = guess.split('');
+
+    // First pass: correct
+    for (let i = 0; i < wordLen; i++) {
+      if (guessArr[i] === answerArr[i]) {
+        result[i] = 'correct';
+        answerArr[i] = null;
+        guessArr[i] = null;
+      }
+    }
+    // Second pass: present
+    for (let i = 0; i < wordLen; i++) {
+      if (guessArr[i] === null) continue;
+      const idx = answerArr.indexOf(guessArr[i]);
+      if (idx !== -1) {
+        result[i] = 'present';
+        answerArr[idx] = null;
+      }
+    }
+
+    // Animate reveal
+    for (let c = 0; c < wordLen; c++) {
+      const cell = getCell(rowIdx, c);
+      const delay = c * 120;
+      setTimeout(() => {
+        cell.classList.add('reveal');
+        setTimeout(() => {
+          cell.classList.add(result[c]);
+        }, 200);
+      }, delay);
+    }
+
+    // Update keyboard colors after animation
+    setTimeout(() => {
+      for (let c = 0; c < wordLen; c++) {
+        const ch = guess[c];
+        const r = result[c];
+        const priority = { correct: 3, present: 2, absent: 1 };
+        if (!keyStates[ch] || priority[r] > priority[keyStates[ch]]) {
+          keyStates[ch] = r;
+        }
+        const keyBtn = kbEl.querySelector(`[data-key="${ch}"]`);
+        if (keyBtn) keyBtn.className = 'wordle-key ' + keyStates[ch];
+      }
+    }, wordLen * 120 + 250);
+
+    guesses.push(guess);
+    currentGuess = '';
+
+    // Check win/lose after animation
+    setTimeout(() => {
+      if (guess === answer) {
+        gameOver = true;
+        const msgs = ['genius!', 'magnificent!', 'impressive!', 'splendid!', 'great!', 'phew!'];
+        msgEl.textContent = msgs[rowIdx] || 'nice!';
+        msgEl.className = 'wordle-msg win';
+        showHint();
+        newBtn.style.display = '';
+      } else if (guesses.length >= MAX_GUESSES) {
+        gameOver = true;
+        msgEl.textContent = answer;
+        msgEl.className = 'wordle-msg lose';
+        showHint();
+        newBtn.style.display = '';
+      }
+      triesEl.textContent = guesses.length + '/' + MAX_GUESSES;
+    }, wordLen * 120 + 300);
+  }
+
+  function showHint() {
+    hintEl.innerHTML = '<strong>' + answer + '</strong>: ' + answerHint;
+    hintEl.style.display = '';
+  }
+
+  function addLetter(ch) {
+    if (gameOver || currentGuess.length >= wordLen) return;
+    currentGuess += ch.toUpperCase();
+    const cell = getCell(guesses.length, currentGuess.length - 1);
+    cell.classList.add('pop');
+    setTimeout(() => cell.classList.remove('pop'), 150);
+    updateGrid();
+  }
+
+  function removeLetter() {
+    if (gameOver || currentGuess.length === 0) return;
+    currentGuess = currentGuess.slice(0, -1);
+    updateGrid();
+  }
+
+  // Physical keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!panel.classList.contains('open')) return;
+    if (e.key === 'Enter') { e.preventDefault(); submitGuess(); }
+    else if (e.key === 'Backspace') { e.preventDefault(); removeLetter(); }
+    else if (/^[a-zA-Z]$/.test(e.key)) { addLetter(e.key); }
   });
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setIcon);
-  setIcon();
+
+  // On-screen keyboard
+  kbEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.wordle-key');
+    if (!btn) return;
+    const key = btn.dataset.key;
+    if (key === 'Enter') submitGuess();
+    else if (key === 'Backspace') removeLetter();
+    else addLetter(key);
+  });
+
+  // Toggle
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    if (isOpen && guesses === undefined) init();
+  });
+
+  newBtn.addEventListener('click', init);
+
+  // Pre-init so first open is ready
+  init();
+
+  // Add shake keyframes
+  const style = document.createElement('style');
+  style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}';
+  document.head.appendChild(style);
+})();
 </script>
 
 <script data-goatcounter="https://ssophiee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
