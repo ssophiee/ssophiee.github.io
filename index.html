@@ -392,6 +392,7 @@
     border-top: 1px solid var(--border);
   }
   footer span { opacity: 0.6; }
+  footer #whois-line { opacity: 0.85; color: var(--text); }
 
   /* ============ WORDLE GAME WIDGET ============ */
   .wordle-toggle {
@@ -482,12 +483,12 @@
     transform: scale(1.05);
   }
   .wordle-cell.correct {
-    background: var(--pink);
-    border-color: var(--pink);
+    background: #538d4e;
+    border-color: #538d4e;
   }
   .wordle-cell.present {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: #c9a227;
+    border-color: #c9a227;
   }
   .wordle-cell.absent {
     background: #2a2a3a;
@@ -548,13 +549,13 @@
     font-size: 0.55rem;
   }
   .wordle-key.correct {
-    background: var(--pink);
-    border-color: var(--pink);
+    background: #538d4e;
+    border-color: #538d4e;
     color: #fff;
   }
   .wordle-key.present {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: #c9a227;
+    border-color: #c9a227;
     color: #fff;
   }
   .wordle-key.absent {
@@ -858,7 +859,11 @@
 
   </section>
 
-<footer><span>$ echo "</span>vibe-coded with claude code :)<span>"</span></footer>
+<footer>
+  <span>$ echo "</span>vibe-coded with claude code :)<span>"</span>
+  <br>
+  <span id="whois-line"></span>
+</footer>
 
 </main>
 
@@ -877,10 +882,10 @@
 </div>
 
 <!-- Wordle widget -->
-<button class="wordle-toggle" id="wordle-toggle">wordle</button>
+<button class="wordle-toggle" id="wordle-toggle">AI/ML wordle</button>
 <div class="wordle-panel" id="wordle-panel">
   <div class="wordle-header">
-    <span class="wordle-title">wordle</span>
+    <span class="wordle-title">AI/ML wordle</span>
     <span class="wordle-tries" id="wordle-tries"></span>
   </div>
   <div class="wordle-grid" id="wordle-grid"></div>
@@ -987,7 +992,8 @@
     ['TUNED','A model that has been fine-tuned on a specific task'],
     ['CLONE','Replicating a model\'s behavior through distillation'],
     ['MERGE','Combining multiple model weights into a single model'],
-    ['MASKS','Attention patterns that control which tokens interact'],
+    ['MASKS','Binary matrices that prevent attention to certain positions, e.g. future tokens'],
+    ['BASIN','A region in loss landscape where optimization converges to a minimum'],
     ['SPLIT','Dividing data into train, validation, and test sets'],
     ['DENSE','A fully connected neural network layer'],
     ['REWARD','The signal an RL agent optimizes for during training'],
@@ -1186,12 +1192,14 @@
         msgEl.className = 'wordle-msg win';
         showHint();
         newBtn.style.display = '';
+        trackWordle('win-' + (rowIdx + 1));
       } else if (guesses.length >= MAX_GUESSES) {
         gameOver = true;
         msgEl.textContent = answer;
         msgEl.className = 'wordle-msg lose';
         showHint();
         newBtn.style.display = '';
+        trackWordle('lose');
       }
       triesEl.textContent = guesses.length + '/' + MAX_GUESSES;
     }, wordLen * 120 + 300);
@@ -1235,10 +1243,17 @@
     else addLetter(key);
   });
 
+  function trackWordle(event) {
+    if (window.goatcounter && goatcounter.count) {
+      goatcounter.count({ path: 'wordle/' + event, title: 'Wordle: ' + event, event: true });
+    }
+  }
+
   // Toggle
   toggleBtn.addEventListener('click', () => {
     const isOpen = panel.classList.toggle('open');
     if (isOpen && guesses === undefined) init();
+    if (isOpen) trackWordle('open');
   });
 
   newBtn.addEventListener('click', init);
@@ -1250,6 +1265,29 @@
   const style = document.createElement('style');
   style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}';
   document.head.appendChild(style);
+})();
+</script>
+
+<script>
+(function() {
+  const pioneers = [
+    ['ada_lovelace',       1843, 'first computer program'],
+    ['grace_hopper',       1952, 'wrote the first compiler'],
+    ['margaret_hamilton',   1969, 'Apollo guidance software'],
+    ['hedy_lamarr',        1942, 'frequency-hopping spread spectrum'],
+    ['katherine_johnson',  1962, 'orbital trajectory calculations for NASA'],
+    ['radia_perlman',      1985, 'invented spanning tree protocol'],
+    ['barbara_liskov',     1987, 'the Liskov substitution principle'],
+    ['shafi_goldwasser',   1982, 'probabilistic encryption and zero-knowledge proofs'],
+    ['fei-fei_li',         2009, 'ImageNet and modern computer vision'],
+    ['maryam_mirzakhani',  2014, 'first woman to win the Fields Medal'],
+    ['joan_clarke',        1940, 'Enigma codebreaker at Bletchley Park'],
+    ['annie_easley',       1955, 'rocket propulsion and energy conversion at NASA'],
+    ['adele_goldberg',     1981, 'co-developed Smalltalk and modern GUIs'],
+  ];
+  const pick = pioneers[Math.floor(Math.random() * pioneers.length)];
+  document.getElementById('whois-line').textContent =
+    '$ whois ' + pick[0] + '  [' + pick[1] + '] — ' + pick[2];
 })();
 </script>
 
